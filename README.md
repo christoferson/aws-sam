@@ -4,17 +4,40 @@
 
 ### AWS SAM template anatomy | [link](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-template-anatomy.html)
 
-#### Transform declaration. 
+#### Transform declaration (required)
 The declaration Transform: AWS::Serverless-2016-10-31 is required for AWS SAM template files. 
 
-#### Globals section. 
+#### Globals section (optional)
 The Globals section is unique to AWS SAM. It defines properties that are common to all your serverless functions and APIs. All the AWS::Serverless::Function, AWS::Serverless::Api, and AWS::Serverless::SimpleTable resources inherit the properties that are defined in the Globals section.
 
-#### Resources section. 
+#### Resources section (required)
 In AWS SAM templates the Resources section can contain a combination of AWS CloudFormation resources and AWS SAM resources.
 
-#### Parameters section. 
+#### Parameters section (optional)
 Objects that are declared in the Parameters section cause the sam deploy --guided command to present additional prompts to the user.
+
+#### Skeleton
+
+```
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  set of globals
+Description:
+  String
+Metadata:
+  template metadata
+Parameters:
+  set of parameters
+Mappings:
+  set of mappings
+Conditions:
+  set of conditions
+Resources:
+  set of resources
+Outputs:
+  set of outputs
+```
 
 Example SAM Template
 
