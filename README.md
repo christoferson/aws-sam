@@ -39,6 +39,101 @@ Outputs:
   set of outputs
 ```
 
+#### Globals
+
+##### Globals Example
+
+```
+Globals:
+  Function:
+    Runtime: nodejs12.x
+    Timeout: 180
+    Handler: index.handler
+    Environment:
+      Variables:
+        TABLE_NAME: data-table
+
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Environment:
+        Variables:
+          MESSAGE: "Hello From SAM"
+
+  ThumbnailFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Thumbnail:
+          Type: Api
+          Properties:
+            Path: /thumbnail
+            Method: POST
+```
+
+##### Global Template
+
+```
+Globals:
+  Function:
+    Handler:
+    Runtime:
+    CodeUri:
+    DeadLetterQueue:
+    Description:
+    MemorySize:
+    Timeout:
+    VpcConfig:
+    Environment:
+    Tags:
+    Tracing:
+    KmsKeyArn:
+    Layers:
+    AutoPublishAlias:
+    DeploymentPreference:
+    PermissionsBoundary:
+    ReservedConcurrentExecutions:
+    ProvisionedConcurrencyConfig:
+    AssumeRolePolicyDocument:
+    EventInvokeConfig:
+    Architectures:
+    EphemeralStorage:
+
+  Api:
+    Auth:
+    Name:
+    DefinitionUri:
+    CacheClusterEnabled:
+    CacheClusterSize:
+    Variables:
+    EndpointConfiguration:
+    MethodSettings:
+    BinaryMediaTypes:
+    MinimumCompressionSize:
+    Cors:
+    GatewayResponses:
+    AccessLogSetting:
+    CanarySetting:
+    TracingEnabled:
+    OpenApiVersion:
+    Domain:
+
+  HttpApi:
+    Auth:
+    AccessLogSettings:
+    StageVariables:
+    Tags:
+
+  SimpleTable:
+    SSESpecification:
+```
+##### Implicit API
+  AWS SAM creates implicit APIs when you declare an API in the Events section. You can use Globals to override all properties of implicit APIs.
+
+#### Overridable properties
+-------
+
 Example SAM Template
 
 ```
