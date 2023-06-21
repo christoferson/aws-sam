@@ -132,6 +132,29 @@ Globals:
   AWS SAM creates implicit APIs when you declare an API in the Events section. You can use Globals to override all properties of implicit APIs.
 
 #### Overridable properties
+
+- Resources can override the properties that you declare in the Globals section.
+
+- But the resource cannot remove a property that's specified in the Globals section.
+
+-  If some resources use a property but others don't, then you must not declare them in the Globals section.
+
+##### Primitive data types are replaced
+
+Primitive data types include strings, numbers, Booleans, and so on.
+The value specified in the Resources section replaces the value in the Globals section.
+
+##### Maps are merged
+
+Maps are also known as dictionaries or collections of key-value pairs.
+Map entries in the Resources section are merged with global map entries. If there are duplicates, the Resource section entry overrides the Globals section entry.
+
+##### Lists are additive
+
+Lists are also known as arrays.
+List entries in the Globals section are prepended to the list in the Resources section.
+
+
 -------
 
 Example SAM Template
