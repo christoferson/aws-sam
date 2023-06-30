@@ -24,6 +24,8 @@ Resources:
   ServerlessFunction:
     Type: AWS::Serverless::Function
     Properties:
+      #FunctionName: ""
+      Description: "Serverless Function"
       Handler: index.handler
       Runtime: python3.9
       #CodeUri: 's3://testBucket/mySourceCode.zip'
@@ -32,6 +34,8 @@ Resources:
           print("Hello, world!")
       Tracing: Active
       Timeout: 120
+      MemorySize: 128
+      PropagateTags: true
       Policies:
         - AWSLambdaExecute
         - Version: '2012-10-17' 
@@ -41,6 +45,12 @@ Resources:
                 - s3:GetObject
                 - s3:GetObjectACL
               Resource: '*'
+      Environment:
+        Variables:
+          DatabaseName: sonic
+          DatabaseUser: mac2
+      Tags:
+        Name: "serverless-function-basic"
 
   ServerlessFunctionLogGroup:
     Type: "AWS::Logs::LogGroup"
