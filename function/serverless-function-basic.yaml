@@ -4,10 +4,10 @@ Description: Serverless Function - Basic with Inline Source
 
 Resources:
 
-  LambdaExecutionRole:
+  ServerlessFunctionExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      #RoleName: "basic-lambda-role"
+      #RoleName: "serverless-function-basic-role"
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -36,6 +36,7 @@ Resources:
       Timeout: 120
       MemorySize: 128
       PropagateTags: true
+      Role: !GetAtt ServerlessFunctionExecutionRole.Arn  #serverless-function-basic-ServerlessFunctionRole-13GA0O9DQ5JJV 
       Policies:
         - AWSLambdaExecute
         - Version: '2012-10-17' 
@@ -49,6 +50,8 @@ Resources:
         Variables:
           DatabaseName: sonic
           DatabaseUser: mac2
+      EphemeralStorage:
+        Size: 512
       Tags:
         Name: "serverless-function-basic"
 
