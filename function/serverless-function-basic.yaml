@@ -31,12 +31,15 @@ Resources:
       #CodeUri: 's3://testBucket/mySourceCode.zip'
       InlineCode: |
         def handler(event, context):
-          print("Hello, world!")
+          print("Application Version 3.0!")
+          return "3.0"
       Tracing: Active
       Timeout: 120
       MemorySize: 128
       PropagateTags: true
-      Role: !GetAtt ServerlessFunctionExecutionRole.Arn  #serverless-function-basic-ServerlessFunctionRole-13GA0O9DQ5JJV 
+      Role: !GetAtt ServerlessFunctionExecutionRole.Arn  #serverless-function-basic-ServerlessFunctionRole-13GA0O9DQ5JJV
+      AutoPublishAlias: "live"
+      AutoPublishAliasAllProperties: false
       Policies:
         - AWSLambdaExecute
         - Version: '2012-10-17' 
