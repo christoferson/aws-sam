@@ -1,13 +1,13 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: Serverless Function - Basic with Inline Source
+Description: Serverless Function - Function URL
 
 Resources:
 
   ServerlessFunctionExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      #RoleName: "serverless-function-basic-role"
+      #RoleName: "serverless-function-url-role"
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -25,7 +25,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       #FunctionName: ""
-      Description: "Serverless Function"
+      Description: "Serverless Function - URL"
       Handler: index.handler
       Runtime: python3.9
       #CodeUri: 's3://testBucket/mySourceCode.zip'
@@ -55,8 +55,17 @@ Resources:
           DatabaseUser: mac2
       EphemeralStorage:
         Size: 512
+      FunctionUrlConfig:
+        AuthType:  NONE #AWS_IAM
+        InvokeMode: BUFFERED #RESPONSE_STREAM
+        Cors:
+          AllowMethods: 
+            - "GET"
+          AllowOrigins:
+            - "*"
+          MaxAge: 0
       Tags:
-        Name: "serverless-function-basic"
+        Name: "serverless-function-url"
 
   ServerlessFunctionLogGroup:
     Type: "AWS::Logs::LogGroup"
