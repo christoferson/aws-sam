@@ -2,6 +2,19 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: Serverless Function - VPC
 
+Parameters:
+
+  VpcSubnetIdList:
+    Description: Private VpcSubnets for Serverless Functions
+    Type: List<AWS::EC2::Subnet::Id>
+    ConstraintDescription: Must be the identifier of an existing Subnets
+
+  VpcSecurityGroupIdList:
+    Description: Security Group List for Serverless Functions
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    ConstraintDescription: Must be the identifier of existing SecurityGroups
+
+
 Resources:
 
   ServerlessFunctionExecutionRole:
@@ -19,6 +32,7 @@ Resources:
               - 'sts:AssumeRole'
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
         - arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
 
   ServerlessFunction:
@@ -56,6 +70,9 @@ Resources:
           DatabaseUser: mac2
       EphemeralStorage:
         Size: 512
+      VpcConfig:
+        SecurityGroupIds: !Ref VpcSecurityGroupIdList
+        SubnetIds: !Ref VpcSubnetIdList
       Tags:
         Name: "serverless-function-basic"
 
