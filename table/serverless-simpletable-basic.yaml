@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless Function - Basic with Inline Source
+
+Resources:
+
+  ServerlessFunctionExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      #RoleName: "serverless-function-basic-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
+
+  ServerlessFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      #FunctionName: ""
+      Description: "Serverless Function"
+      Handler: index.handler
+      Runtime: python3.9
+      #CodeUri: 's3://testBucket/mySourceCode.zip'
+      InlineCode: |
+        def handler(event, context):
+          print("Application Version 3.0!")
+          return "3.0"
+      Tracing: Active
+      Timeout: 120
+      MemorySize: 128
+      PropagateTags: true
+      Role: !GetAtt ServerlessFunctionExecutionRole.Arn  #serverless-function-basic-ServerlessFunctionRole-13GA0O9DQ5JJV
+      AutoPublishAlias: "live"
+      AutoPublishAliasAllProperties: false
+      VersionDescription: "3.0"
+      Policies:
+        - AWSLambdaExecute
+        - Version: '2012-10-17' 
+          Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+                - s3:GetObjectACL
+              Resource: '*'
+      Environment:
+        Variables:
+          DatabaseName: sonic
+          DatabaseUser: mac2
+      EphemeralStorage:
+        Size: 512
+      Tags:
+        Name: "serverless-function-basic"
+
+  ServerlessFunctionLogGroup:
+    Type: "AWS::Logs::LogGroup"
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${ServerlessFunction}"
+      RetentionInDays: 1
+      
+Outputs:
+
+  ServerlessFunction:
+    Value: !GetAtt ServerlessFunction.Arn
+
+
+
